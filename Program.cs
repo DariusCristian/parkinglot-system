@@ -1,25 +1,52 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ParkingLotSystem.Data;
 using ParkingLotSystem.Areas.Identity.Data;
+using ParkingLotSystem.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using ParkingLotSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
+// Authorization policy
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+});
 
-// App DB (your existing one)
+// Razor Pages + access rules (Lab 6)
+builder.Services.AddRazorPages(options =>
+{
+    // Require login
+    options.Conventions.AuthorizeFolder("/Subscriptions");
+    options.Conventions.AuthorizeFolder("/Subscribers");
+
+    // Admin-only CRUD
+    options.Conventions.AuthorizePage("/ParkingLots/Create", "AdminOnly");
+    options.Conventions.AuthorizePage("/ParkingLots/Edit", "AdminOnly");
+    options.Conventions.AuthorizePage("/ParkingLots/Delete", "AdminOnly");
+
+    options.Conventions.AuthorizePage("/SubscriptionPlans/Create", "AdminOnly");
+    options.Conventions.AuthorizePage("/SubscriptionPlans/Edit", "AdminOnly");
+    options.Conventions.AuthorizePage("/SubscriptionPlans/Delete", "AdminOnly");
+});
+
+// App DB
 builder.Services.AddDbContext<ParkingLotSystemContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ParkingLotSystemContext")));
 
-// Identity DB (new one)
+// Identity DB
 builder.Services.AddDbContext<ParkingLotSystemIdentityContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ParkingLotSystemIdentityContext")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+// Identity + Roles
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
 })
-.AddEntityFrameworkStores<ParkingLotSystemIdentityContext>();
+.AddEntityFrameworkStores<ParkingLotSystemIdentityContext>()
+.AddDefaultTokenProviders();
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
