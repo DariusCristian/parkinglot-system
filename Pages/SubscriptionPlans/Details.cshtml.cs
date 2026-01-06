@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ParkingLotSystem.Data;
 using ParkingLotSystem.Models;
 
-namespace ParkingLotSystem.Pages.ParkingLots
+namespace ParkingLotSystem.Pages.SubscriptionPlans
 {
     public class DetailsModel : PageModel
     {
@@ -19,7 +19,7 @@ namespace ParkingLotSystem.Pages.ParkingLots
             _context = context;
         }
 
-        public ParkingLot ParkingLot { get; set; } = default!;
+        public Models.SubscriptionPlan SubscriptionPlan { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,14 +28,14 @@ namespace ParkingLotSystem.Pages.ParkingLots
                 return NotFound();
             }
 
-            var parkinglot = await _context.ParkingLot.FirstOrDefaultAsync(m => m.ID == id);
-            if (parkinglot == null)
+            var subscriptionplan = await _context.SubscriptionPlan.FirstOrDefaultAsync(m => m.ID == id);
+            if (subscriptionplan == null)
             {
                 return NotFound();
             }
             else
             {
-                ParkingLot = parkinglot;
+                SubscriptionPlan = subscriptionplan;
             }
             return Page();
         }

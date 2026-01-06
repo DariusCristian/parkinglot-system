@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ParkingLotSystem.Data;
 using ParkingLotSystem.Models;
 
-namespace ParkingLotSystem.Pages.ParkingLots
+namespace ParkingLotSystem.Pages.SubscriptionPlans
 {
     public class IndexModel : PageModel
     {
@@ -19,11 +19,11 @@ namespace ParkingLotSystem.Pages.ParkingLots
             _context = context;
         }
 
-        public IList<ParkingLot> ParkingLot { get;set; } = default!;
+        public IList<Models.SubscriptionPlan> SubscriptionPlan { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            ParkingLot = await _context.ParkingLot.ToListAsync();
+            SubscriptionPlan = await _context.SubscriptionPlan.ToListAsync();
         }
     }
 }

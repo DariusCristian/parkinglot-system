@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ParkingLotSystem.Data;
-using ParkingSystem.Models;
+using ParkingLotSystem.Models;
 
 namespace ParkingLotSystem.Pages.ParkingLots
 {

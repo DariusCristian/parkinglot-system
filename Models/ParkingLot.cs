@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ParkingSystem.Models
+namespace ParkingLotSystem.Models
 {
     public class ParkingLot
     {
@@ -30,5 +30,6 @@ namespace ParkingSystem.Models
         [Column(TypeName = "decimal(6, 2)")]
         [Range(0.01, 500, ErrorMessage = "Hourly rate must be between 0.01 and 500.")]
         public decimal HourlyRate { get; set; }
+        public ICollection<PlanParkingLot> PlanParkingLots { get; set; } = new List<PlanParkingLot>();
     }
 }

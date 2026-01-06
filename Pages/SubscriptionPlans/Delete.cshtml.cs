@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ParkingLotSystem.Data;
 using ParkingLotSystem.Models;
 
-namespace ParkingLotSystem.Pages.ParkingLots
+namespace ParkingLotSystem.Pages.SubscriptionPlans
 {
     public class DeleteModel : PageModel
     {
@@ -20,7 +20,7 @@ namespace ParkingLotSystem.Pages.ParkingLots
         }
 
         [BindProperty]
-        public ParkingLot ParkingLot { get; set; } = default!;
+        public Models.SubscriptionPlan SubscriptionPlan { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,15 +29,15 @@ namespace ParkingLotSystem.Pages.ParkingLots
                 return NotFound();
             }
 
-            var parkinglot = await _context.ParkingLot.FirstOrDefaultAsync(m => m.ID == id);
+            var subscriptionplan = await _context.SubscriptionPlan.FirstOrDefaultAsync(m => m.ID == id);
 
-            if (parkinglot == null)
+            if (subscriptionplan == null)
             {
                 return NotFound();
             }
             else
             {
-                ParkingLot = parkinglot;
+                SubscriptionPlan = subscriptionplan;
             }
             return Page();
         }
@@ -49,11 +49,11 @@ namespace ParkingLotSystem.Pages.ParkingLots
                 return NotFound();
             }
 
-            var parkinglot = await _context.ParkingLot.FindAsync(id);
-            if (parkinglot != null)
+            var subscriptionplan = await _context.SubscriptionPlan.FindAsync(id);
+            if (subscriptionplan != null)
             {
-                ParkingLot = parkinglot;
-                _context.ParkingLot.Remove(ParkingLot);
+                SubscriptionPlan = subscriptionplan;
+                _context.SubscriptionPlan.Remove(SubscriptionPlan);
                 await _context.SaveChangesAsync();
             }
 
