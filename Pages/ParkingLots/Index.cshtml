@@ -1,60 +1,74 @@
-﻿@page
+﻿@page "{id:int?}"
 @model ParkingLotSystem.Pages.ParkingLots.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Parking lots";
 }
 
-<h1>Index</h1>
+<h1>Parking lots</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ParkingLot[0].Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParkingLot[0].Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParkingLot[0].City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParkingLot[0].Capacity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParkingLot[0].HourlyRate)
-            </th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Capacity</th>
+            <th>Hourly rate</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.ParkingLot) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Capacity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HourlyRate)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.ParkingLotData.ParkingLots)
+        {
+            string selectedRow = "";
+            if (item.ID == Model.ParkingLotID)
+            {
+                selectedRow = "table-success";
+            }
+
+            <tr class="@selectedRow">
+                <td>@item.Name</td>
+                <td>@item.Address</td>
+                <td>@item.City</td>
+                <td>@item.Capacity</td>
+                <td>@item.HourlyRate</td>
+                <td>
+                    <a asp-page="./Index" asp-route-id="@item.ID">Select</a> |
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@if (Model.ParkingLotData.SubscriptionPlans != null && Model.ParkingLotData.SubscriptionPlans.Any())
+{
+    <h3>Subscription plans available in the selected parking lot</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Monthly price</th>
+                <th>Duration days</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var plan in Model.ParkingLotData.SubscriptionPlans)
+            {
+                <tr>
+                    <td>@plan.Name</td>
+                    <td>@plan.MonthlyPrice</td>
+                    <td>@plan.DurationDays</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
