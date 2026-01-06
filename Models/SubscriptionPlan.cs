@@ -19,5 +19,7 @@ namespace ParkingLotSystem.Models
         public int DurationDays { get; set; }
 
         public ICollection<PlanParkingLot> PlanParkingLots { get; set; } = new List<PlanParkingLot>();
+
+        public ICollection<Subscription>? Subscriptions { get; set; }
     }
 }

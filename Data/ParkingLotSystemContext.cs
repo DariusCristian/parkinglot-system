@@ -13,6 +13,8 @@ namespace ParkingLotSystem.Data
         public DbSet<ParkingLot> ParkingLot { get; set; } = default!;
         public DbSet<SubscriptionPlan> SubscriptionPlan { get; set; } = default!;
         public DbSet<PlanParkingLot> PlanParkingLot { get; set; } = default!;
+        public DbSet<Subscriber> Subscriber { get; set; } = default!;
+        public DbSet<Subscription> Subscription { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
