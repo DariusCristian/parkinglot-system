@@ -1,0 +1,58 @@
+﻿@page
+@model ParkingLotSystem.Pages.ParkingLots.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>ParkingLot</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ParkingLot.ID" />
+            <div class="form-group">
+<span class="text-danger">*</span>
+                <label asp-for="ParkingLot.Name" class="control-label"></label>
+                <input asp-for="ParkingLot.Name" class="form-control" aria-required="true"/>
+                <span asp-validation-for="ParkingLot.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+<span class="text-danger">*</span>
+                <label asp-for="ParkingLot.Address" class="control-label"></label>
+                <input asp-for="ParkingLot.Address" class="form-control" aria-required="true"/>
+                <span asp-validation-for="ParkingLot.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+<span class="text-danger">*</span>
+                <label asp-for="ParkingLot.City" class="control-label"></label>
+                <input asp-for="ParkingLot.City" class="form-control" aria-required="true"/>
+                <span asp-validation-for="ParkingLot.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkingLot.Capacity" class="control-label"></label>
+                <input asp-for="ParkingLot.Capacity" class="form-control" />
+                <span asp-validation-for="ParkingLot.Capacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParkingLot.HourlyRate" class="control-label"></label>
+                <input asp-for="ParkingLot.HourlyRate" class="form-control" />
+                <span asp-validation-for="ParkingLot.HourlyRate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
