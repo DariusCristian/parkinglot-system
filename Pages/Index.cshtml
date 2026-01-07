@@ -1,10 +1,96 @@
 ﻿@page
-@model IndexModel
+@model ParkingLotSystem.Pages.IndexModel
+
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>Dashboard</h1>
+
+<div class="row">
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Parking lots</h5>
+                <p class="card-text display-6">@Model.ParkingLotCount</p>
+                <a class="btn btn-primary" asp-page="/ParkingLots/Index">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Subscription plans</h5>
+                <p class="card-text display-6">@Model.SubscriptionPlanCount</p>
+                <a class="btn btn-primary" asp-page="/SubscriptionPlans/Index">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Subscribers</h5>
+                <p class="card-text display-6">@Model.SubscriberCount</p>
+                <a class="btn btn-primary" asp-page="/Subscribers/Index">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Subscriptions</h5>
+                <p class="card-text display-6">@Model.SubscriptionCount</p>
+                <a class="btn btn-primary" asp-page="/Subscriptions/Index">Open</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Active subscriptions</h5>
+                <p class="card-text display-6">@Model.ActiveSubscriptionCount</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Upcoming expirations</h5>
+
+                @if (Model.UpcomingExpirations != null && Model.UpcomingExpirations.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Subscriber</th>
+                                <th>Plan</th>
+                                <th>End date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in Model.UpcomingExpirations)
+                            {
+                                <tr>
+                                    <td>@s.Subscriber?.FullName</td>
+                                    <td>@s.SubscriptionPlan?.Name</td>
+                                    <td>@s.EndDate.ToShortDateString()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="mb-0">No active subscriptions.</p>
+                }
+            </div>
+        </div>
+    </div>
 </div>

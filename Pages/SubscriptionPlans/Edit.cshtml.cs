@@ -24,7 +24,7 @@ namespace ParkingLotSystem.Pages.SubscriptionPlans
             SubscriptionPlan = await _context.SubscriptionPlan
                 .Include(p => p.PlanParkingLots)
                 .ThenInclude(pp => pp.ParkingLot)
-                .FirstOrDefaultAsync(p => p.ID == id.Value);
+                .FirstOrDefaultAsync(m => m.ID == id);
 
             if (SubscriptionPlan == null) return NotFound();
 
@@ -38,8 +38,8 @@ namespace ParkingLotSystem.Pages.SubscriptionPlans
 
             var planToUpdate = await _context.SubscriptionPlan
                 .Include(p => p.PlanParkingLots)
-                .ThenInclude(pp => pp.ParkingLot)
-                .FirstOrDefaultAsync(p => p.ID == id.Value);
+                    .ThenInclude(pp => pp.ParkingLot)
+                .FirstOrDefaultAsync(p => p.ID == id);
 
             if (planToUpdate == null) return NotFound();
 
@@ -48,12 +48,12 @@ namespace ParkingLotSystem.Pages.SubscriptionPlans
                     "SubscriptionPlan",
                     p => p.Name, p => p.MonthlyPrice, p => p.DurationDays))
             {
-                UpdatePlanParkingLots(_context, selectedParkingLots, planToUpdate);
+                UpdatePlanParkingLots(_context, selectedParkingLots ?? Array.Empty<string>(), planToUpdate);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
 
-            UpdatePlanParkingLots(_context, selectedParkingLots, planToUpdate);
+            UpdatePlanParkingLots(_context, selectedParkingLots ?? Array.Empty<string>(), planToUpdate);
             PopulateAssignedParkingLotData(_context, planToUpdate);
             return Page();
         }

@@ -40,6 +40,7 @@
                 </a>
             </th>
             <th>Duration days</th>
+            <th>Parking lots</th>
             <th></th>
         </tr>
     </thead>
@@ -56,6 +57,12 @@
                 <td>@item.Name</td>
                 <td>@item.MonthlyPrice</td>
                 <td>@item.DurationDays</td>
+                <td>
+                    @if (item.PlanParkingLots != null && item.PlanParkingLots.Any())
+                    {
+                        @string.Join(", ", item.PlanParkingLots.Select(pp => pp.ParkingLot!.Name))
+                    }
+                </td>
                 <td>
                     <a asp-page="./Index"
                        asp-route-id="@item.ID"

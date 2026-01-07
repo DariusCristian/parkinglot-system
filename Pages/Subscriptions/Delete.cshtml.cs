@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using ParkingLotSystem.Models;
 
 namespace ParkingLotSystem.Pages.Subscriptions
 {
+    [Authorize]
     public class DeleteModel : PageModel
     {
         private readonly ParkingLotSystem.Data.ParkingLotSystemContext _context;

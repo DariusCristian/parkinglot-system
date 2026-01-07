@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ParkingLotSystem.Data;
 using ParkingLotSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ParkingLotSystem.Pages.SubscriptionPlans
 {
@@ -28,7 +29,12 @@ namespace ParkingLotSystem.Pages.SubscriptionPlans
                 return NotFound();
             }
 
-            var subscriptionplan = await _context.SubscriptionPlan.FirstOrDefaultAsync(m => m.ID == id);
+            var subscriptionplan = await _context.SubscriptionPlan
+                .Include(p => p.PlanParkingLots)
+                    .ThenInclude(pp => pp.ParkingLot)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (subscriptionplan == null)
             {
                 return NotFound();

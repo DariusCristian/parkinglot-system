@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ParkingLotSystem.Data;
 using ParkingLotSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ParkingLotSystem.Pages.ParkingLots
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly ParkingLotSystem.Data.ParkingLotSystemContext _context;

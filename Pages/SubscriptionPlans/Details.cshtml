@@ -11,6 +11,21 @@
     <h4>SubscriptionPlan</h4>
     <hr />
     <dl class="row">
+        <h4>Parking lots</h4>
+
+        @if (Model.SubscriptionPlan.PlanParkingLots != null && Model.SubscriptionPlan.PlanParkingLots.Any())
+        {
+            <ul>
+                @foreach (var pp in Model.SubscriptionPlan.PlanParkingLots)
+                {
+                    <li>@pp.ParkingLot?.Name</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No parking lots assigned.</p>
+        }
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.SubscriptionPlan.Name)
         </dt>

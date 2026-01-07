@@ -14,36 +14,44 @@ namespace ParkingLotSystem.Pages.SubscriptionPlans
         }
 
         [BindProperty]
-        public SubscriptionPlan SubscriptionPlan { get; set; } = new();
+        public SubscriptionPlan SubscriptionPlan { get; set; } = new SubscriptionPlan();
 
         public IActionResult OnGet()
         {
-            SubscriptionPlan.PlanParkingLots = new List<PlanParkingLot>();
-            PopulateAssignedParkingLotData(_context, SubscriptionPlan);
+            var plan = new SubscriptionPlan();
+            PopulateAssignedParkingLotData(_context, plan);
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string[]? selectedParkingLots)
         {
-            if (!ModelState.IsValid)
-            {
-                SubscriptionPlan.PlanParkingLots = new List<PlanParkingLot>();
-                PopulateAssignedParkingLotData(_context, SubscriptionPlan);
-                return Page();
-            }
+            var newPlan = new SubscriptionPlan();
 
-            SubscriptionPlan.PlanParkingLots = new List<PlanParkingLot>();
-            foreach (var lotId in selectedParkingLots ?? Array.Empty<string>())
+            if (selectedParkingLots != null)
             {
-                SubscriptionPlan.PlanParkingLots.Add(new PlanParkingLot
+                newPlan.PlanParkingLots = new List<PlanParkingLot>();
+                foreach (var lotId in selectedParkingLots)
                 {
-                    ParkingLotID = int.Parse(lotId)
-                });
+                    newPlan.PlanParkingLots.Add(new PlanParkingLot
+                    {
+                        ParkingLotID = int.Parse(lotId)
+                    });
+                }
             }
 
-            _context.SubscriptionPlan.Add(SubscriptionPlan);
-            await _context.SaveChangesAsync();
-            return RedirectToPage("./Index");
+            if (await TryUpdateModelAsync(
+                    newPlan,
+                    "SubscriptionPlan",
+                    p => p.Name, p => p.MonthlyPrice, p => p.DurationDays))
+            {
+                _context.SubscriptionPlan.Add(newPlan);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+
+            // If validation fails, repopulate checkbox list
+            PopulateAssignedParkingLotData(_context, newPlan);
+            return Page();
         }
     }
 }

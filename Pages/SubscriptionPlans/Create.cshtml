@@ -30,6 +30,32 @@
                 <span asp-validation-for="SubscriptionPlan.DurationDays" class="text-danger"></span>
             </div>
             <div class="form-group">
+    <label class="control-label">Parking lots</label>
+                <div>
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+                                foreach (var lot in Model.AssignedParkingLotDataList)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                        @:</tr><tr>
+                                    }
+                                    @:<td style="padding-right:20px;">
+                                        <input type="checkbox"
+                                               name="selectedParkingLots"
+                                               value="@lot.ParkingLotID"
+                                               @(lot.Assigned ? "checked=\"checked\"" : "") />
+                                        @lot.Name
+                                    @:</td>
+                                }
+                                @:</tr>
+                            }
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

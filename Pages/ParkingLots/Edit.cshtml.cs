@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ParkingLotSystem.Data;
 using ParkingLotSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ParkingLotSystem.Pages.ParkingLots
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly ParkingLotSystem.Data.ParkingLotSystemContext _context;

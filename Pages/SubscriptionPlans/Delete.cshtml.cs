@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ParkingLotSystem.Data;
 using ParkingLotSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ParkingLotSystem.Pages.SubscriptionPlans
 {
+    [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         private readonly ParkingLotSystem.Data.ParkingLotSystemContext _context;
